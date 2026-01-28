@@ -1,6 +1,6 @@
 public class Event extends Task {
-    private String from;
-    private String to;
+    private final String from;
+    private final String to;
 
     public Event(String description, String from, String to) {
         super(description);
@@ -9,16 +9,15 @@ public class Event extends Task {
     }
 
     public String getFrom() {
-        return this.from;
+        return from;
     }
 
     public String getTo() {
-        return this.to;
+        return to;
     }
-
 
     @Override
     public String toString() {
-        return "[E]" + super.toString() + " (from: " + from + " to: " + to + ")";
+        return "[E][" + getStatusIcon() + "] " + description + " (from: " + from + " to: " + to + ")";
     }
 }

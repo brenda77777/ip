@@ -2,20 +2,21 @@ import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 
 public class Deadline extends Task {
-    private LocalDate by;
+    private final LocalDate by;
+    private static final DateTimeFormatter OUT =
+            DateTimeFormatter.ofPattern("MMM dd yyyy");
 
-    public Deadline(String description, String by) {
+    public Deadline(String description, LocalDate by) {
         super(description);
-        this.by = LocalDate.parse(by);
+        this.by = by;
     }
 
     public LocalDate getBy() {
-        return this.by;
+        return by;
     }
 
     @Override
     public String toString() {
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("MMM d yyyy");
-        return "[D]" + super.toString() + " (by: " + by.format(formatter) + ")";
+        return "[D][" + getStatusIcon() + "] " + description + " (by: " + by.format(OUT) + ")";
     }
 }
