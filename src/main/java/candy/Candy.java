@@ -1,3 +1,4 @@
+package candy;
 import java.time.LocalDate;
 
 public class Candy {

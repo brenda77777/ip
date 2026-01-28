@@ -1,3 +1,5 @@
+package candy;
+
 public class ParsedCommand {
     public final CommandType type;
     public String arg1;

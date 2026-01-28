@@ -1,3 +1,5 @@
+package candy;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -42,7 +44,7 @@ public class TaskList {
 
     private void checkIndex(int idx) throws CandyException {
         if (idx < 0 || idx >= tasks.size()) {
-            throw new CandyException("Task number does not exist.");
+            throw new CandyException("candy.Task number does not exist.");
         }
     }
 }

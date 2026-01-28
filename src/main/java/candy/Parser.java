@@ -1,3 +1,5 @@
+package candy;
+
 import java.time.LocalDate;
 
 public class Parser {
@@ -99,7 +101,7 @@ public class Parser {
             int oneBased = Integer.parseInt(parts[1]);
             int idx = oneBased - 1;
             if (idx < 0) {
-                throw new CandyException("Task number must be >= 1.");
+                throw new CandyException("candy.Task number must be >= 1.");
             }
             return idx;
         } catch (NumberFormatException e) {
@@ -115,7 +117,7 @@ public class Parser {
         }
     }
 
-    // Load from file line -> Task object
+    // Load from file line -> candy.Task object
     public static Task parseLine(String line) throws CandyException {
         // format: TYPE | doneFlag | desc | extra...
         String[] parts = line.split("\\s*\\|\\s*");
@@ -151,7 +153,7 @@ public class Parser {
         return t;
     }
 
-    //Save Task object -> file line
+    //Save candy.Task object -> file line
     public static String toLine(Task t) {
         String done = t.isDone() ? "1" : "0";
 

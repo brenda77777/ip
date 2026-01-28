@@ -1,3 +1,5 @@
+package candy;
+
 import java.util.Scanner;
 
 public class Ui {
@@ -19,8 +21,7 @@ public class Ui {
     public void showError(String msg) {
         System.out.println(msg);
     }
-
-    // ✅ FIX: catch CandyException INSIDE Ui
+    
     public void showList(TaskList tasks) {
         if (tasks.size() == 0) {
             System.out.println("Your list is empty.");
