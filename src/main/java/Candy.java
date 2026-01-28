@@ -1,11 +1,25 @@
 import java.util.Scanner;
 import java.util.ArrayList;
+import java.util.List;
 
 public class Candy {
     public static void main(String[] args) {
         Scanner scanner = new Scanner(System.in);
-
         ArrayList<Task> tasks = new ArrayList<>();
+        //System.out.println("Working dir = " + System.getProperty("user.dir"));
+        Storage storage = new Storage("data/candy.txt");
+
+        try {
+            List<String> lines = storage.loadLines();
+            for (String line : lines) {
+                Task t = lineToTask(line);
+                if (t != null) {
+                    tasks.add(t);
+                }
+            }
+        } catch (Exception e) {
+            System.out.println("Warning: Could not load data");
+        }
 
         System.out.println("Hello! I'm Candy");
         System.out.println("What can I do for you?");
@@ -15,9 +29,11 @@ public class Candy {
             try {
                 // EXIT
                 if (input.equals("bye")) {
+                    saveAll(storage, tasks);
                     System.out.println("Bye. Hope to see you again soon!");
                     break;
                 }
+
 
                 // LIST
                 if (input.equals("list")) {
@@ -192,5 +208,57 @@ public class Candy {
             }
         }
         scanner.close();
+    }
+    private static void saveAll(Storage storage, ArrayList<Task> tasks) {
+        List<String> lines = new ArrayList<>();
+        for (Task t : tasks) {
+            lines.add(taskToLine(t));
+        }
+        storage.saveLines(lines);
+    }
+
+    private static String taskToLine(Task t) {
+        String done = t.isDone() ? "1" : "0";
+
+        if (t instanceof Todo) {
+            return "T | " + done + " | " + t.getDescription();
+        } else if (t instanceof Deadline) {
+            Deadline d = (Deadline) t;
+            return "D | " + done + " | " + d.getDescription() + " | " + d.getBy();
+        } else if (t instanceof Event) {
+            Event e = (Event) t;
+            return "E | " + done + " | " + e.getDescription() + " | " + e.getFrom() + " | " + e.getTo();
+        } else {
+            return "T | " + done + " | " + t.getDescription();
+        }
+    }
+
+    private static Task lineToTask(String line) {
+        String[] parts = line.split("\\s*\\|\\s*");
+        if (parts.length < 3) {
+            return null;
+        }
+
+        String type = parts[0];
+        boolean isDone = parts[1].equals("1");
+        String desc = parts[2];
+
+        Task t;
+        if (type.equals("T")) {
+            t = new Todo(desc);
+        } else if (type.equals("D")) {
+            if (parts.length < 4) return null;
+            t = new Deadline(desc, parts[3]);
+        } else if (type.equals("E")) {
+            if (parts.length < 5) return null;
+            t = new Event(desc, parts[3], parts[4]);
+        } else {
+            t = new Todo(desc);
+        }
+
+        if (isDone) {
+            t.markDone();
+        }
+        return t;
     }
 }
