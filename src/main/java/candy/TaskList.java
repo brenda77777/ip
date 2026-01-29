@@ -47,4 +47,16 @@ public class TaskList {
             throw new CandyException("candy.Task number does not exist.");
         }
     }
+
+    public TaskList find(String keyword) {
+        TaskList result = new TaskList();
+        String k = keyword.toLowerCase();
+
+        for (Task t : tasks) {
+            if (t.getDescription().toLowerCase().contains(k)) {
+                result.add(t);
+            }
+        }
+        return result;
+    }
 }

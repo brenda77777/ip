@@ -59,4 +59,20 @@ public class Ui {
         System.out.println("OK, I've marked this task as not done yet:");
         System.out.println(task);
     }
+
+    public void showFindResults(String keyword, TaskList matches) {
+        if (matches.size() == 0) {
+            System.out.println("No matching tasks found for: " + keyword);
+            return;
+        }
+
+        System.out.println("Here are the matching tasks in your list:");
+        for (int i = 0; i < matches.size(); i++) {
+            try {
+                System.out.println((i + 1) + ". " + matches.get(i));
+            } catch (CandyException e) {
+                System.out.println("Error displaying match " + (i + 1));
+            }
+        }
+    }
 }

@@ -74,6 +74,11 @@ public class Candy {
                         saveAll();
                         break;
 
+                    case FIND:
+                        TaskList matches = tasks.find(cmd.arg1);
+                        ui.showFindResults(cmd.arg1, matches);
+                        break;
+
                     default:
                         throw new CandyException("OOPS!!! I'm sorry, but I don't know what that means :-(");
                 }

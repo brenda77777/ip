@@ -89,8 +89,20 @@ public class Parser {
             return cmd;
         }
 
+        if (input.startsWith("find")) {
+            String keyword = input.substring(4).trim();
+            if (keyword.isEmpty()) {
+                throw new CandyException("Please use format: find <keyword>");
+            }
+            ParsedCommand cmd = new ParsedCommand(CommandType.FIND);
+            cmd.arg1 = keyword;
+            return cmd;
+        }
+
         throw new CandyException("OOPS!!! I'm sorry, but I don't know what that means :-(");
     }
+
+
 
     public static int parseIndex(String input) throws CandyException {
         String[] parts = input.trim().split("\\s+");
