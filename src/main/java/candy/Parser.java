@@ -2,8 +2,22 @@ package candy;
 
 import java.time.LocalDate;
 
+/**
+ * Parses user input and converts it into commands and task objects.
+ * <p>
+ * This class is responsible for:
+ * converting raw text commands into {@link ParsedCommand}, and
+ * converting stored file lines into {@link Task} objects (and back).
+ */
 public class Parser {
 
+    /**
+     * Parses a user command string into a {@link ParsedCommand}.
+     *
+     * @param input Raw user input.
+     * @return ParsedCommand representing the user's command and arguments.
+     * @throws CandyException If the input format is invalid or command is unknown.
+     */
     public static ParsedCommand parse(String input) throws CandyException {
         input = input.trim();
 
@@ -102,8 +116,13 @@ public class Parser {
         throw new CandyException("OOPS!!! I'm sorry, but I don't know what that means :-(");
     }
 
-
-
+    /**
+     * Extracts a 1-based task number from commands like "mark 2" and converts it to 0-based index.
+     *
+     * @param input Full user input containing a task number.
+     * @return 0-based index of the task.
+     * @throws CandyException If the task number is missing or invalid.
+     */
     public static int parseIndex(String input) throws CandyException {
         String[] parts = input.trim().split("\\s+");
         if (parts.length < 2) {
@@ -121,6 +140,13 @@ public class Parser {
         }
     }
 
+    /**
+     * Parses a date string in yyyy-mm-dd format into a {@link LocalDate}.
+     *
+     * @param s Date string in yyyy-mm-dd format.
+     * @return Parsed LocalDate.
+     * @throws CandyException If the date format is invalid.
+     */
     public static LocalDate parseDate(String s) throws CandyException {
         try {
             return LocalDate.parse(s); // expects yyyy-mm-dd
@@ -129,7 +155,13 @@ public class Parser {
         }
     }
 
-    // Load from file line -> candy.Task object
+    /**
+     * Converts a saved file line into a {@link Task} object.
+     *
+     * @param line A line read from the save file.
+     * @return Task object created from the line, or null if the line is invalid.
+     * @throws CandyException If the line contains an invalid date.
+     */
     public static Task parseLine(String line) throws CandyException {
         // format: TYPE | doneFlag | desc | extra...
         String[] parts = line.split("\\s*\\|\\s*");
@@ -143,20 +175,24 @@ public class Parser {
 
         Task t;
         switch (type) {
-            case "T":
-                t = new Todo(desc);
-                break;
-            case "D":
-                if (parts.length < 4) return null;
-                LocalDate by = parseDate(parts[3].trim());
-                t = new Deadline(desc, by);
-                break;
-            case "E":
-                if (parts.length < 5) return null;
-                t = new Event(desc, parts[3].trim(), parts[4].trim());
-                break;
-            default:
+        case "T":
+            t = new Todo(desc);
+            break;
+        case "D":
+            if (parts.length < 4) {
                 return null;
+            }
+            LocalDate by = parseDate(parts[3].trim());
+            t = new Deadline(desc, by);
+            break;
+        case "E":
+            if (parts.length < 5) {
+                return null;
+            }
+            t = new Event(desc, parts[3].trim(), parts[4].trim());
+            break;
+        default:
+            return null;
         }
 
         if (isDone) {
@@ -165,7 +201,12 @@ public class Parser {
         return t;
     }
 
-    //Save candy.Task object -> file line
+    /**
+     * Converts a {@link Task} object into a single line suitable for saving to file.
+     *
+     * @param t Task to be saved.
+     * @return A formatted line representing the task.
+     */
     public static String toLine(Task t) {
         String done = t.isDone() ? "1" : "0";
 

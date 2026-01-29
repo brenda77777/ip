@@ -3,37 +3,86 @@ package candy;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * Represents a list of tasks in the Candy application.
+ * <p>
+ * This class manages adding, removing, searching, and updating tasks.
+ * It also handles converting tasks into file storage format.
+ */
 public class TaskList {
+
+    /** Internal list storing all tasks. */
     private final ArrayList<Task> tasks = new ArrayList<>();
 
+    /**
+     * Adds a task to the list.
+     *
+     * @param t Task to be added
+     */
     public void add(Task t) {
         tasks.add(t);
     }
 
+    /**
+     * Returns the task at the specified index.
+     *
+     * @param idx Index of the task (zero-based)
+     * @return Task at the given index
+     * @throws CandyException If index is invalid
+     */
     public Task get(int idx) throws CandyException {
         checkIndex(idx);
         return tasks.get(idx);
     }
 
+    /**
+     * Removes and returns the task at the specified index.
+     *
+     * @param idx Index of the task (zero-based)
+     * @return Removed task
+     * @throws CandyException If index is invalid
+     */
     public Task remove(int idx) throws CandyException {
         checkIndex(idx);
         return tasks.remove(idx);
     }
 
+    /**
+     * Returns the number of tasks in the list.
+     *
+     * @return Number of tasks
+     */
     public int size() {
         return tasks.size();
     }
 
+    /**
+     * Marks the task at the given index as completed.
+     *
+     * @param idx Index of the task
+     * @throws CandyException If index is invalid
+     */
     public void mark(int idx) throws CandyException {
         checkIndex(idx);
         tasks.get(idx).markDone();
     }
 
+    /**
+     * Marks the task at the given index as not completed.
+     *
+     * @param idx Index of the task
+     * @throws CandyException If index is invalid
+     */
     public void unmark(int idx) throws CandyException {
         checkIndex(idx);
         tasks.get(idx).unmark();
     }
 
+    /**
+     * Converts all tasks into file storage format lines.
+     *
+     * @return List of formatted task lines
+     */
     public List<String> toLines() {
         List<String> lines = new ArrayList<>();
         for (Task t : tasks) {
@@ -42,12 +91,24 @@ public class TaskList {
         return lines;
     }
 
+    /**
+     * Checks whether the given index is valid.
+     *
+     * @param idx Index to be checked
+     * @throws CandyException If index is out of range
+     */
     private void checkIndex(int idx) throws CandyException {
         if (idx < 0 || idx >= tasks.size()) {
-            throw new CandyException("candy.Task number does not exist.");
+            throw new CandyException("Task number does not exist.");
         }
     }
 
+    /**
+     * Finds tasks whose descriptions contain the given keyword.
+     *
+     * @param keyword Search keyword
+     * @return A TaskList containing matching tasks
+     */
     public TaskList find(String keyword) {
         TaskList result = new TaskList();
         String k = keyword.toLowerCase();

@@ -1,11 +1,24 @@
 package candy;
+
 import java.time.LocalDate;
 
+/**
+ * The main entry point of the Candy task manager application.
+ * <p>
+ * Candy reads user commands, delegates parsing to {@link Parser}, stores tasks in {@link TaskList},
+ * shows output via {@link Ui}, and persists data using {@link Storage}.
+ */
 public class Candy {
     private final Ui ui;
     private final Storage storage;
     private final TaskList tasks;
 
+    /**
+     * Constructs a Candy application with the given storage file path.
+     * Loads any existing tasks from the file into memory.
+     *
+     * @param filePath Path to the data file used for loading and saving tasks.
+     */
     public Candy(String filePath) {
         this.ui = new Ui();
         this.storage = new Storage(filePath);
@@ -13,10 +26,20 @@ public class Candy {
         loadFromFile();
     }
 
+    /**
+     * Starts the Candy application.
+     *
+     * @param args Command line arguments (not used).
+     */
     public static void main(String[] args) {
         new Candy("data/candy.txt").run();
     }
 
+    /**
+     * Runs the main command loop of the application.
+     * Reads commands from the user, parses them, executes the corresponding action,
+     * and displays messages or errors accordingly.
+     */
     public void run() {
         ui.showWelcome();
 
@@ -27,60 +50,60 @@ public class Candy {
                 ParsedCommand cmd = Parser.parse(input);
 
                 switch (cmd.type) {
-                    case BYE:
-                        saveAll();
-                        ui.showMessage("Bye. Hope to see you again soon!");
-                        return;
+                case BYE:
+                    saveAll();
+                    ui.showMessage("Bye. Hope to see you again soon!");
+                    return;
 
-                    case LIST:
-                        ui.showList(tasks);
-                        break;
+                case LIST:
+                    ui.showList(tasks);
+                    break;
 
-                    case TODO:
-                        tasks.add(new Todo(cmd.arg1));
-                        ui.showAdd(tasks.get(tasks.size() - 1), tasks.size());
-                        saveAll();
-                        break;
+                case TODO:
+                    tasks.add(new Todo(cmd.arg1));
+                    ui.showAdd(tasks.get(tasks.size() - 1), tasks.size());
+                    saveAll();
+                    break;
 
-                    case DEADLINE: {
-                        LocalDate by = Parser.parseDate(cmd.arg2);
-                        tasks.add(new Deadline(cmd.arg1, by));
-                        ui.showAdd(tasks.get(tasks.size() - 1), tasks.size());
-                        saveAll();
-                        break;
-                    }
+                case DEADLINE: {
+                    LocalDate by = Parser.parseDate(cmd.arg2);
+                    tasks.add(new Deadline(cmd.arg1, by));
+                    ui.showAdd(tasks.get(tasks.size() - 1), tasks.size());
+                    saveAll();
+                    break;
+                }
 
-                    case EVENT:
-                        tasks.add(new Event(cmd.arg1, cmd.arg2, cmd.arg3));
-                        ui.showAdd(tasks.get(tasks.size() - 1), tasks.size());
-                        saveAll();
-                        break;
+                case EVENT:
+                    tasks.add(new Event(cmd.arg1, cmd.arg2, cmd.arg3));
+                    ui.showAdd(tasks.get(tasks.size() - 1), tasks.size());
+                    saveAll();
+                    break;
 
-                    case MARK:
-                        tasks.mark(cmd.index);
-                        ui.showMark(tasks.get(cmd.index));
-                        saveAll();
-                        break;
+                case MARK:
+                    tasks.mark(cmd.index);
+                    ui.showMark(tasks.get(cmd.index));
+                    saveAll();
+                    break;
 
-                    case UNMARK:
-                        tasks.unmark(cmd.index);
-                        ui.showUnmark(tasks.get(cmd.index));
-                        saveAll();
-                        break;
+                case UNMARK:
+                    tasks.unmark(cmd.index);
+                    ui.showUnmark(tasks.get(cmd.index));
+                    saveAll();
+                    break;
 
-                    case DELETE:
-                        Task removed = tasks.remove(cmd.index);
-                        ui.showDelete(removed, tasks.size());
-                        saveAll();
-                        break;
+                case DELETE:
+                    Task removed = tasks.remove(cmd.index);
+                    ui.showDelete(removed, tasks.size());
+                    saveAll();
+                    break;
 
-                    case FIND:
-                        TaskList matches = tasks.find(cmd.arg1);
-                        ui.showFindResults(cmd.arg1, matches);
-                        break;
+                case FIND:
+                    TaskList matches = tasks.find(cmd.arg1);
+                    ui.showFindResults(cmd.arg1, matches);
+                    break;
 
-                    default:
-                        throw new CandyException("OOPS!!! I'm sorry, but I don't know what that means :-(");
+                default:
+                    throw new CandyException("OOPS!!! I'm sorry, but I don't know what that means :-(");
                 }
 
             } catch (CandyException e) {
@@ -91,6 +114,10 @@ public class Candy {
         }
     }
 
+    /**
+     * Loads tasks from storage into the current task list.
+     * If loading fails, the app continues with an empty list.
+     */
     private void loadFromFile() {
         try {
             for (String line : storage.loadLines()) {
@@ -104,6 +131,9 @@ public class Candy {
         }
     }
 
+    /**
+     * Saves the current task list to storage.
+     */
     private void saveAll() {
         storage.saveLines(tasks.toLines());
     }
