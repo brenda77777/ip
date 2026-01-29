@@ -1,4 +1,5 @@
 package candy;
+
 import java.time.LocalDate;
 
 public class Candy {
@@ -27,60 +28,60 @@ public class Candy {
                 ParsedCommand cmd = Parser.parse(input);
 
                 switch (cmd.type) {
-                    case BYE:
-                        saveAll();
-                        ui.showMessage("Bye. Hope to see you again soon!");
-                        return;
+                case BYE:
+                    saveAll();
+                    ui.showMessage("Bye. Hope to see you again soon!");
+                    return;
 
-                    case LIST:
-                        ui.showList(tasks);
-                        break;
+                case LIST:
+                    ui.showList(tasks);
+                    break;
 
-                    case TODO:
-                        tasks.add(new Todo(cmd.arg1));
-                        ui.showAdd(tasks.get(tasks.size() - 1), tasks.size());
-                        saveAll();
-                        break;
+                case TODO:
+                    tasks.add(new Todo(cmd.arg1));
+                    ui.showAdd(tasks.get(tasks.size() - 1), tasks.size());
+                    saveAll();
+                    break;
 
-                    case DEADLINE: {
-                        LocalDate by = Parser.parseDate(cmd.arg2);
-                        tasks.add(new Deadline(cmd.arg1, by));
-                        ui.showAdd(tasks.get(tasks.size() - 1), tasks.size());
-                        saveAll();
-                        break;
-                    }
+                case DEADLINE: {
+                    LocalDate by = Parser.parseDate(cmd.arg2);
+                    tasks.add(new Deadline(cmd.arg1, by));
+                    ui.showAdd(tasks.get(tasks.size() - 1), tasks.size());
+                    saveAll();
+                    break;
+                }
 
-                    case EVENT:
-                        tasks.add(new Event(cmd.arg1, cmd.arg2, cmd.arg3));
-                        ui.showAdd(tasks.get(tasks.size() - 1), tasks.size());
-                        saveAll();
-                        break;
+                case EVENT:
+                    tasks.add(new Event(cmd.arg1, cmd.arg2, cmd.arg3));
+                    ui.showAdd(tasks.get(tasks.size() - 1), tasks.size());
+                    saveAll();
+                    break;
 
-                    case MARK:
-                        tasks.mark(cmd.index);
-                        ui.showMark(tasks.get(cmd.index));
-                        saveAll();
-                        break;
+                case MARK:
+                    tasks.mark(cmd.index);
+                    ui.showMark(tasks.get(cmd.index));
+                    saveAll();
+                    break;
 
-                    case UNMARK:
-                        tasks.unmark(cmd.index);
-                        ui.showUnmark(tasks.get(cmd.index));
-                        saveAll();
-                        break;
+                case UNMARK:
+                    tasks.unmark(cmd.index);
+                    ui.showUnmark(tasks.get(cmd.index));
+                    saveAll();
+                    break;
 
-                    case DELETE:
-                        Task removed = tasks.remove(cmd.index);
-                        ui.showDelete(removed, tasks.size());
-                        saveAll();
-                        break;
+                case DELETE:
+                    Task removed = tasks.remove(cmd.index);
+                    ui.showDelete(removed, tasks.size());
+                    saveAll();
+                    break;
 
-                    case FIND:
-                        TaskList matches = tasks.find(cmd.arg1);
-                        ui.showFindResults(cmd.arg1, matches);
-                        break;
+                case FIND:
+                    TaskList matches = tasks.find(cmd.arg1);
+                    ui.showFindResults(cmd.arg1, matches);
+                    break;
 
-                    default:
-                        throw new CandyException("OOPS!!! I'm sorry, but I don't know what that means :-(");
+                default:
+                    throw new CandyException("OOPS!!! I'm sorry, but I don't know what that means :-(");
                 }
 
             } catch (CandyException e) {
