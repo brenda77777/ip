@@ -2,11 +2,23 @@ package candy;
 
 import java.time.LocalDate;
 
+/**
+ * The main entry point of the Candy task manager application.
+ * <p>
+ * Candy reads user commands, delegates parsing to {@link Parser}, stores tasks in {@link TaskList},
+ * shows output via {@link Ui}, and persists data using {@link Storage}.
+ */
 public class Candy {
     private final Ui ui;
     private final Storage storage;
     private final TaskList tasks;
 
+    /**
+     * Constructs a Candy application with the given storage file path.
+     * Loads any existing tasks from the file into memory.
+     *
+     * @param filePath Path to the data file used for loading and saving tasks.
+     */
     public Candy(String filePath) {
         this.ui = new Ui();
         this.storage = new Storage(filePath);
@@ -14,10 +26,20 @@ public class Candy {
         loadFromFile();
     }
 
+    /**
+     * Starts the Candy application.
+     *
+     * @param args Command line arguments (not used).
+     */
     public static void main(String[] args) {
         new Candy("data/candy.txt").run();
     }
 
+    /**
+     * Runs the main command loop of the application.
+     * Reads commands from the user, parses them, executes the corresponding action,
+     * and displays messages or errors accordingly.
+     */
     public void run() {
         ui.showWelcome();
 
@@ -92,6 +114,10 @@ public class Candy {
         }
     }
 
+    /**
+     * Loads tasks from storage into the current task list.
+     * If loading fails, the app continues with an empty list.
+     */
     private void loadFromFile() {
         try {
             for (String line : storage.loadLines()) {
@@ -105,6 +131,9 @@ public class Candy {
         }
     }
 
+    /**
+     * Saves the current task list to storage.
+     */
     private void saveAll() {
         storage.saveLines(tasks.toLines());
     }
