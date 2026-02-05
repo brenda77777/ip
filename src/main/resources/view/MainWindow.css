@@ -1,0 +1,12 @@
+.chat-area {
+    -fx-background-color: #ADD8E6;
+}
+
+.scroll-pane {
+    -fx-background: #ADD8E6;
+    -fx-background-color: #ADD8E6;
+}
+
+.scroll-pane > .viewport {
+    -fx-background-color: #ADD8E6;
+}

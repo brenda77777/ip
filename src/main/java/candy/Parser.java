@@ -29,6 +29,10 @@ public class Parser {
             return new ParsedCommand(CommandType.LIST);
         }
 
+        if (input.equals("help")) {
+            return new ParsedCommand(CommandType.HELP);
+        }
+
         if (input.startsWith("mark")) {
             ParsedCommand cmd = new ParsedCommand(CommandType.MARK);
             cmd.index = parseIndex(input);
@@ -113,7 +117,7 @@ public class Parser {
             return cmd;
         }
 
-        throw new CandyException("OOPS!!! I'm sorry, but I don't know what that means :-(");
+        throw new CandyException("Unknown command. Type 'help' to see available commands");
     }
 
     /**

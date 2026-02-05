@@ -26,6 +26,11 @@ public class Candy {
         loadFromFile();
     }
 
+    // another constructor (JavaFX uses this)
+    public Candy() {
+        this("data/candy.txt");
+    }
+
     /**
      * Starts the Candy application.
      *
@@ -136,5 +141,17 @@ public class Candy {
      */
     private void saveAll() {
         storage.saveLines(tasks.toLines());
+    }
+
+    /**
+     * Generates a response for the user's chat message.
+     */
+    public String getResponse(String input) {
+        try {
+            ParsedCommand command = Parser.parse(input);
+            return command.execute(tasks, ui, storage);
+        } catch (CandyException e) {
+            return e.getMessage();
+        }
     }
 }
