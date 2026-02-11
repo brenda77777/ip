@@ -146,6 +146,19 @@ public class TaskList {
         return sb.toString();
     }
 
+    /**
+     * Formats the task list into categorized sections.
+     *
+     * Tasks are grouped into:
+     * - Incomplete deadlines (sorted chronologically)
+     * - Completed deadlines (sorted chronologically)
+     * - Todos
+     * - Events
+     *
+     * This method does NOT modify the original task order.
+     *
+     * @return A formatted string representation of the categorized task list.
+     */
     public String formatSortedForDisplay() {
         if (tasks.isEmpty()) {
             return "Your task list is empty.";
