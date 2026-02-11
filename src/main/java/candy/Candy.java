@@ -65,21 +65,21 @@ public class Candy {
                     break;
 
                 case TODO:
-                    tasks.add(new Todo(cmd.arg1));
+                    tasks.add(new Todo(cmd.description));
                     ui.showAdd(tasks.get(tasks.size() - 1), tasks.size());
                     saveAll();
                     break;
 
                 case DEADLINE: {
-                    LocalDate by = Parser.parseDate(cmd.arg2);
-                    tasks.add(new Deadline(cmd.arg1, by));
+                    LocalDate by = Parser.parseDate(cmd.fromTime);
+                    tasks.add(new Deadline(cmd.description, by));
                     ui.showAdd(tasks.get(tasks.size() - 1), tasks.size());
                     saveAll();
                     break;
                 }
 
                 case EVENT:
-                    tasks.add(new Event(cmd.arg1, cmd.arg2, cmd.arg3));
+                    tasks.add(new Event(cmd.description, cmd.fromTime, cmd.toTime));
                     ui.showAdd(tasks.get(tasks.size() - 1), tasks.size());
                     saveAll();
                     break;
@@ -103,8 +103,8 @@ public class Candy {
                     break;
 
                 case FIND:
-                    TaskList matches = tasks.find(cmd.arg1);
-                    ui.showFindResults(cmd.arg1, matches);
+                    TaskList matches = tasks.find(cmd.keyword);
+                    ui.showFindResults(cmd.keyword, matches);
                     break;
 
                 default:
