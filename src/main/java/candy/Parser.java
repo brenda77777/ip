@@ -113,6 +113,10 @@ public class Parser {
             return cmd;
         }
 
+        if (input.equals("sort")) {
+            return new ParsedCommand(CommandType.SORT);
+        }
+
         throw new CandyException("Unknown command. Type 'help' to see available commands");
     }
 

@@ -1,4 +1,9 @@
 T | 0 | aaa
 T | 0 | read book
 D | 0 | return book | 2026-01-20
-E | 0 | project meeting | Mon 2pm | Mon 4pm
+E | 1 | project meeting | Mon 2pm | Mon 4pm
+D | 0 | submit assignment | 2026-01-10
+D | 0 | submit assignment | 2026-01-10
+D | 1 | renew passport | 2026-02-01
+D | 0 | book flight | 2025-12-20
+D | 1 | buy birthday gift | 2026-01-15

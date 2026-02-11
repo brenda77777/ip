@@ -71,7 +71,7 @@ public class Candy {
                     break;
 
                 case DEADLINE: {
-                    LocalDate by = Parser.parseDate(cmd.fromTime);
+                    LocalDate by = Parser.parseDate(cmd.byDate);
                     tasks.add(new Deadline(cmd.description, by));
                     ui.showAdd(tasks.get(tasks.size() - 1), tasks.size());
                     saveAll();
@@ -106,6 +106,26 @@ public class Candy {
                     TaskList matches = tasks.find(cmd.keyword);
                     ui.showFindResults(cmd.keyword, matches);
                     break;
+
+                case SORT:
+                    ui.showMessage(tasks.formatSortedForDisplay());
+                    break;
+
+                case HELP:
+                    ui.showMessage("Available commands:\n"
+                            + "list\n"
+                            + "todo <task>\n"
+                            + "deadline <task> /by <yyyy-mm-dd>\n"
+                            + "event <task> /from <start> /to <end>\n"
+                            + "mark <task number>\n"
+                            + "unmark <task number>\n"
+                            + "delete <task number>\n"
+                            + "find <keyword>\n"
+                            + "sort\n"
+                            + "bye");
+                    break;
+
+
 
                 default:
                     throw new CandyException("OOPS!!! I'm sorry, but I don't know what that means :-(");

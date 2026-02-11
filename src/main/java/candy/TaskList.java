@@ -2,6 +2,8 @@ package candy;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Comparator;
+
 
 /**
  * Represents a list of tasks in the Candy application.
@@ -143,4 +145,77 @@ public class TaskList {
 
         return sb.toString();
     }
+
+    public String formatSortedForDisplay() {
+        if (tasks.isEmpty()) {
+            return "Your task list is empty.";
+        }
+
+        ArrayList<Deadline> urgent = new ArrayList<>();
+        ArrayList<Deadline> completedDeadlines = new ArrayList<>();
+        ArrayList<Todo> todos = new ArrayList<>();
+        ArrayList<Event> events = new ArrayList<>();
+
+        // Separate tasks into groups
+        for (Task t : tasks) {
+            if (t instanceof Deadline) {
+                Deadline d = (Deadline) t;
+                if (!d.isDone()) {
+                    urgent.add(d);
+                } else {
+                    completedDeadlines.add(d);
+                }
+            } else if (t instanceof Todo) {
+                todos.add((Todo) t);
+            } else if (t instanceof Event) {
+                events.add((Event) t);
+            }
+        }
+
+        // Sort deadlines by date
+        urgent.sort(Comparator.comparing(Deadline::getBy));
+        completedDeadlines.sort(Comparator.comparing(Deadline::getBy));
+
+        StringBuilder sb = new StringBuilder();
+
+        sb.append(" ~~Incomplete Urgent Tasks~~ \n");
+        if (urgent.isEmpty()) {
+            sb.append("None\n");
+        } else {
+            for (Deadline d : urgent) {
+                sb.append("- ").append(d).append("\n");
+            }
+        }
+
+        sb.append("\n ~~Completed Deadlines~~ \n");
+        if (completedDeadlines.isEmpty()) {
+            sb.append("None\n");
+        } else {
+            for (Deadline d : completedDeadlines) {
+                sb.append("- ").append(d).append("\n");
+            }
+        }
+
+        sb.append("\n ~~Todos~~ \n");
+        if (todos.isEmpty()) {
+            sb.append("None\n");
+        } else {
+            for (Todo t : todos) {
+                sb.append("- ").append(t).append("\n");
+            }
+        }
+
+        sb.append("\n ~~Events~~ \n");
+        if (events.isEmpty()) {
+            sb.append("None\n");
+        } else {
+            for (Event e : events) {
+                sb.append("- ").append(e).append("\n");
+            }
+        }
+
+        return sb.toString();
+    }
+
+
 }

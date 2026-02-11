@@ -98,7 +98,12 @@ public class ParsedCommand {
                     + "unmark <task number>\n"
                     + "delete <task number>\n"
                     + "find <keyword>\n"
+                    + "sort\n"
                     + "bye";
+
+        case SORT:
+            return tasks.formatSortedForDisplay();
+
 
         default:
             throw new CandyException("Unknown command. Type 'help' to see available commands.");
