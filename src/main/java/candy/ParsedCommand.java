@@ -1,12 +1,18 @@
+// ParsedCommand.java
 package candy;
 
 import java.time.LocalDate;
 
 public class ParsedCommand {
     public final CommandType type;
-    public String arg1;
-    public String arg2;
-    public String arg3; // used for event end time
+
+
+    public String description; // for todo / deadline / event
+    public String keyword;     // for find
+    public String fromTime;    // for event
+    public String toTime;      // for event
+    public String byDate;      // for deadline (yyyy-mm-dd)
+
     public int index = -1;
 
     public ParsedCommand(CommandType type) {
@@ -20,20 +26,20 @@ public class ParsedCommand {
             return tasks.formatForDisplay();
 
         case TODO:
-            tasks.add(new Todo(arg1));
+            tasks.add(new Todo(description));
             storage.saveLines(tasks.toLines());
-            return "Added: " + arg1;
+            return "Added: " + description;
 
         case DEADLINE:
-            LocalDate date = Parser.parseDate(arg2);
-            tasks.add(new Deadline(arg1, date));
+            LocalDate date = Parser.parseDate(byDate);
+            tasks.add(new Deadline(description, date));
             storage.saveLines(tasks.toLines());
-            return "Added deadline: " + arg1 + " (by: " + date + ")";
+            return "Added deadline: " + description + " (by: " + date + ")";
 
         case EVENT:
-            tasks.add(new Event(arg1, arg2, arg3));
+            tasks.add(new Event(description, fromTime, toTime));
             storage.saveLines(tasks.toLines());
-            return "Added event: " + arg1 + " (from: " + arg2 + " to: " + arg3 + ")";
+            return "Added event: " + description + " (from: " + fromTime + " to: " + toTime + ")";
 
         case MARK:
             tasks.mark(index);
@@ -46,12 +52,12 @@ public class ParsedCommand {
             return "Unmarked task " + (index + 1);
 
         case DELETE:
-            tasks.remove(index);   // IMPORTANT: your TaskList likely calls it delete()
+            tasks.remove(index); // if your method is delete(), change this line to tasks.delete(index)
             storage.saveLines(tasks.toLines());
             return "Deleted task " + (index + 1);
 
         case FIND:
-            TaskList result = tasks.find(arg1);
+            TaskList result = tasks.find(keyword);
             return result.formatForDisplay();
 
         case BYE:

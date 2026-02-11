@@ -1,3 +1,4 @@
+// Parser.java
 package candy;
 
 import java.time.LocalDate;
@@ -11,13 +12,6 @@ import java.time.LocalDate;
  */
 public class Parser {
 
-    /**
-     * Parses a user command string into a {@link ParsedCommand}.
-     *
-     * @param input Raw user input.
-     * @return ParsedCommand representing the user's command and arguments.
-     * @throws CandyException If the input format is invalid or command is unknown.
-     */
     public static ParsedCommand parse(String input) throws CandyException {
         input = input.trim();
 
@@ -57,7 +51,7 @@ public class Parser {
                 throw new CandyException("Please use format: todo <task>");
             }
             ParsedCommand cmd = new ParsedCommand(CommandType.TODO);
-            cmd.arg1 = desc;
+            cmd.description = desc;
             return cmd;
         }
 
@@ -67,18 +61,19 @@ public class Parser {
             if (parts.length < 2) {
                 throw new CandyException("Please use format: deadline <task> /by <yyyy-mm-dd>");
             }
+
             String desc = parts[0].trim();
             String by = parts[1].trim();
             if (desc.isEmpty() || by.isEmpty()) {
                 throw new CandyException("Please use format: deadline <task> /by <yyyy-mm-dd>");
             }
 
-            // validate date format here
+            // validate date format
             parseDate(by);
 
             ParsedCommand cmd = new ParsedCommand(CommandType.DEADLINE);
-            cmd.arg1 = desc;
-            cmd.arg2 = by;
+            cmd.description = desc;
+            cmd.byDate = by;
             return cmd;
         }
 
@@ -88,11 +83,13 @@ public class Parser {
             if (parts.length < 2) {
                 throw new CandyException("Please use format: event <task> /from <start> /to <end>");
             }
+
             String desc = parts[0].trim();
             String[] times = parts[1].split(" /to ", 2);
             if (times.length < 2) {
                 throw new CandyException("Please use format: event <task> /from <start> /to <end>");
             }
+
             String from = times[0].trim();
             String to = times[1].trim();
 
@@ -101,9 +98,9 @@ public class Parser {
             }
 
             ParsedCommand cmd = new ParsedCommand(CommandType.EVENT);
-            cmd.arg1 = desc;
-            cmd.arg2 = from;
-            cmd.arg3 = to;
+            cmd.description = desc;
+            cmd.fromTime = from;
+            cmd.toTime = to;
             return cmd;
         }
 
@@ -113,20 +110,13 @@ public class Parser {
                 throw new CandyException("Please use format: find <keyword>");
             }
             ParsedCommand cmd = new ParsedCommand(CommandType.FIND);
-            cmd.arg1 = keyword;
+            cmd.keyword = keyword;
             return cmd;
         }
 
         throw new CandyException("Unknown command. Type 'help' to see available commands");
     }
 
-    /**
-     * Extracts a 1-based task number from commands like "mark 2" and converts it to 0-based index.
-     *
-     * @param input Full user input containing a task number.
-     * @return 0-based index of the task.
-     * @throws CandyException If the task number is missing or invalid.
-     */
     public static int parseIndex(String input) throws CandyException {
         String[] parts = input.trim().split("\\s+");
         if (parts.length < 2) {
@@ -136,7 +126,7 @@ public class Parser {
             int oneBased = Integer.parseInt(parts[1]);
             int idx = oneBased - 1;
             if (idx < 0) {
-                throw new CandyException("candy.Task number must be >= 1.");
+                throw new CandyException("Task number must be >= 1.");
             }
             return idx;
         } catch (NumberFormatException e) {
@@ -144,13 +134,6 @@ public class Parser {
         }
     }
 
-    /**
-     * Parses a date string in yyyy-mm-dd format into a {@link LocalDate}.
-     *
-     * @param s Date string in yyyy-mm-dd format.
-     * @return Parsed LocalDate.
-     * @throws CandyException If the date format is invalid.
-     */
     public static LocalDate parseDate(String s) throws CandyException {
         try {
             return LocalDate.parse(s); // expects yyyy-mm-dd
@@ -159,15 +142,7 @@ public class Parser {
         }
     }
 
-    /**
-     * Converts a saved file line into a {@link Task} object.
-     *
-     * @param line A line read from the save file.
-     * @return Task object created from the line, or null if the line is invalid.
-     * @throws CandyException If the line contains an invalid date.
-     */
     public static Task parseLine(String line) throws CandyException {
-        // format: TYPE | doneFlag | desc | extra...
         String[] parts = line.split("\\s*\\|\\s*");
         if (parts.length < 3) {
             return null;
@@ -205,12 +180,6 @@ public class Parser {
         return t;
     }
 
-    /**
-     * Converts a {@link Task} object into a single line suitable for saving to file.
-     *
-     * @param t Task to be saved.
-     * @return A formatted line representing the task.
-     */
     public static String toLine(Task t) {
         String done = t.isDone() ? "1" : "0";
 
