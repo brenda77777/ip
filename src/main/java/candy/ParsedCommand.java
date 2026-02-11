@@ -1,24 +1,48 @@
-// ParsedCommand.java
 package candy;
 
 import java.time.LocalDate;
 
+/**
+ * Represents a parsed user command.
+ * <p>
+ * A ParsedCommand stores the command type and its associated parameters.
+ * It is responsible for executing the command on the given TaskList.
+ */
 public class ParsedCommand {
+    /** The type of command parsed from user input. */
     public final CommandType type;
 
-
+    /** Task description (used for todo, deadline, event). */
     public String description; // for todo / deadline / event
+    /** Keyword used for find command. */
     public String keyword;     // for find
+    /** Start time (used for event). */
     public String fromTime;    // for event
+    /** End time (used for event). */
     public String toTime;      // for event
+    /** Due date in yyyy-mm-dd format (used for deadline). */
     public String byDate;      // for deadline (yyyy-mm-dd)
-
+    /** Zero-based task index (used for mark, unmark, delete). */
     public int index = -1;
 
+    /**
+     * Creates a ParsedCommand with the given command type.
+     *
+     * @param type The command type.
+     */
     public ParsedCommand(CommandType type) {
         this.type = type;
     }
 
+    /**
+     * Executes this command using the given task list, UI and storage.
+     *
+     * @param tasks The TaskList to operate on.
+     * @param ui The UI (not heavily used here but passed for consistency).
+     * @param storage The Storage object used to persist changes.
+     * @return The message to be displayed to the user.
+     * @throws CandyException If command execution fails.
+     */
     public String execute(TaskList tasks, Ui ui, Storage storage) throws CandyException {
         switch (type) {
 
