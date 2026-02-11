@@ -1,4 +1,3 @@
-// Parser.java
 package candy;
 
 import java.time.LocalDate;
@@ -117,6 +116,13 @@ public class Parser {
         throw new CandyException("Unknown command. Type 'help' to see available commands");
     }
 
+    /**
+     * Extracts a task index from commands like "mark 2".
+     *
+     * @param input Full command string.
+     * @return Zero-based index.
+     * @throws CandyException If index is missing or invalid.
+     */
     public static int parseIndex(String input) throws CandyException {
         String[] parts = input.trim().split("\\s+");
         if (parts.length < 2) {
@@ -134,6 +140,13 @@ public class Parser {
         }
     }
 
+    /**
+     * Parses a yyyy-mm-dd date string into LocalDate.
+     *
+     * @param s Date string.
+     * @return Parsed LocalDate.
+     * @throws CandyException If format is invalid.
+     */
     public static LocalDate parseDate(String s) throws CandyException {
         try {
             return LocalDate.parse(s); // expects yyyy-mm-dd
@@ -141,6 +154,14 @@ public class Parser {
             throw new CandyException("Date must be yyyy-mm-dd (example: 2019-10-15)");
         }
     }
+
+    /**
+     * Converts a saved file line into a Task object.
+     *
+     * @param line Line from storage file.
+     * @return Task object or null if invalid format.
+     * @throws CandyException If date format is invalid.
+     */
 
     public static Task parseLine(String line) throws CandyException {
         String[] parts = line.split("\\s*\\|\\s*");
@@ -180,6 +201,12 @@ public class Parser {
         return t;
     }
 
+    /**
+     * Converts a Task into a storage-friendly string format.
+     *
+     * @param t Task to convert.
+     * @return Formatted storage line.
+     */
     public static String toLine(Task t) {
         String done = t.isDone() ? "1" : "0";
 
