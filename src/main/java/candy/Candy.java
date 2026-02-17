@@ -5,8 +5,13 @@ import java.time.LocalDate;
 /**
  * The main entry point of the Candy task manager application.
  * <p>
- * Candy reads user commands, delegates parsing to {@link Parser}, stores tasks in {@link TaskList},
- * shows output via {@link Ui}, and persists data using {@link Storage}.
+ * Candy supports both:
+ * <ul>
+ *   <li>Terminal mode via {@link #run()}</li>
+ *   <li>GUI mode via {@link #getResponse(String)}</li>
+ * </ul>
+ * The core logic is shared: user input is parsed by {@link Parser} into a {@link ParsedCommand},
+ * then executed to produce a message for display.
  */
 public class Candy {
     private final Ui ui;
@@ -14,10 +19,10 @@ public class Candy {
     private final TaskList tasks;
 
     /**
-     * Constructs a Candy application with the given storage file path.
-     * Loads any existing tasks from the file into memory.
+     * Creates a Candy application using the given storage file path.
+     * Loads existing tasks from the storage file if available.
      *
-     * @param filePath Path to the data file used for loading and saving tasks.
+     * @param filePath Path to the save file used for loading and saving tasks.
      */
     public Candy(String filePath) {
         this.ui = new Ui();
@@ -26,13 +31,16 @@ public class Candy {
         loadFromFile();
     }
 
-    // another constructor (JavaFX uses this)
+    /**
+     * Creates a Candy application using the default storage path.
+     * Intended for GUI usage.
+     */
     public Candy() {
         this("data/candy.txt");
     }
 
     /**
-     * Starts the Candy application.
+     * Launches Candy in terminal mode.
      *
      * @param args Command line arguments (not used).
      */
@@ -41,96 +49,24 @@ public class Candy {
     }
 
     /**
-     * Runs the main command loop of the application.
-     * Reads commands from the user, parses them, executes the corresponding action,
-     * and displays messages or errors accordingly.
+     * Runs Candy in terminal mode.
+     * Reads input from {@link Ui#readCommand()}, parses it using {@link Parser#parse(String)},
+     * executes it, and prints the returned message.
      */
     public void run() {
-        ui.showWelcome();
+        ui.showMessage(ui.getWelcomeText());
 
         while (true) {
-            String input = ui.readCommand();
-
             try {
-                ParsedCommand cmd = Parser.parse(input);
+                String input = ui.readCommand();
+                ParsedCommand command = Parser.parse(input);
 
-                switch (cmd.type) {
-                case BYE:
-                    saveAll();
-                    ui.showMessage("Bye. Hope to see you again soon!");
+                String message = command.execute(tasks, ui, storage);
+                ui.showMessage(message);
+
+                if (command.type == CommandType.BYE) {
                     return;
-
-                case LIST:
-                    ui.showList(tasks);
-                    break;
-
-                case TODO:
-                    tasks.add(new Todo(cmd.description));
-                    ui.showAdd(tasks.get(tasks.size() - 1), tasks.size());
-                    saveAll();
-                    break;
-
-                case DEADLINE: {
-                    LocalDate by = Parser.parseDate(cmd.byDate);
-                    tasks.add(new Deadline(cmd.description, by));
-                    ui.showAdd(tasks.get(tasks.size() - 1), tasks.size());
-                    saveAll();
-                    break;
                 }
-
-                case EVENT:
-                    tasks.add(new Event(cmd.description, cmd.fromTime, cmd.toTime));
-                    ui.showAdd(tasks.get(tasks.size() - 1), tasks.size());
-                    saveAll();
-                    break;
-
-                case MARK:
-                    tasks.mark(cmd.index);
-                    ui.showMark(tasks.get(cmd.index));
-                    saveAll();
-                    break;
-
-                case UNMARK:
-                    tasks.unmark(cmd.index);
-                    ui.showUnmark(tasks.get(cmd.index));
-                    saveAll();
-                    break;
-
-                case DELETE:
-                    Task removed = tasks.remove(cmd.index);
-                    ui.showDelete(removed, tasks.size());
-                    saveAll();
-                    break;
-
-                case FIND:
-                    TaskList matches = tasks.find(cmd.keyword);
-                    ui.showFindResults(cmd.keyword, matches);
-                    break;
-
-                case SORT:
-                    ui.showMessage(tasks.formatSortedForDisplay());
-                    break;
-
-                case HELP:
-                    ui.showMessage("Available commands:\n"
-                            + "list\n"
-                            + "todo <task>\n"
-                            + "deadline <task> /by <yyyy-mm-dd>\n"
-                            + "event <task> /from <start> /to <end>\n"
-                            + "mark <task number>\n"
-                            + "unmark <task number>\n"
-                            + "delete <task number>\n"
-                            + "find <keyword>\n"
-                            + "sort\n"
-                            + "bye");
-                    break;
-
-
-
-                default:
-                    throw new CandyException("OOPS!!! I'm sorry, but I don't know what that means :-(");
-                }
-
             } catch (CandyException e) {
                 ui.showError(e.getMessage());
             } catch (Exception e) {
@@ -140,15 +76,15 @@ public class Candy {
     }
 
     /**
-     * Loads tasks from storage into the current task list.
-     * If loading fails, the app continues with an empty list.
+     * Loads tasks from storage into {@link #tasks}.
+     * If loading fails, Candy continues with an empty list.
      */
     private void loadFromFile() {
         try {
             for (String line : storage.loadLines()) {
-                Task t = Parser.parseLine(line);
-                if (t != null) {
-                    tasks.add(t);
+                Task task = Parser.parseLine(line);
+                if (task != null) {
+                    tasks.add(task);
                 }
             }
         } catch (Exception e) {
@@ -157,19 +93,17 @@ public class Candy {
     }
 
     /**
-     * Saves the current task list to storage.
-     */
-    private void saveAll() {
-        storage.saveLines(tasks.toLines());
-    }
-
-    /**
-     * Generates a response for the user's chat message.
+     * Generates a reply string for the GUI.
+     * <p>
+     * The GUI will call this method, then display the returned message in the chat.
+     *
+     * @param input User input from the GUI text field.
+     * @return Response text to display to the user.
      */
     public String getResponse(String input) {
         try {
-            ParsedCommand command = Parser.parse(input);
-            return command.execute(tasks, ui, storage);
+            ParsedCommand parsedCommand = Parser.parse(input);
+            return parsedCommand.execute(tasks, ui, storage);
         } catch (CandyException e) {
             return e.getMessage();
         }

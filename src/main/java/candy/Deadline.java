@@ -7,7 +7,7 @@ import java.time.format.DateTimeFormatter;
  * Represents a task that must be completed by a specific date.
  */
 public class Deadline extends Task {
-    private final LocalDate by;
+    private final LocalDate byDate;
     private static final DateTimeFormatter OUT =
             DateTimeFormatter.ofPattern("MMM dd yyyy");
 
@@ -15,11 +15,11 @@ public class Deadline extends Task {
      * Creates a Deadline task with the given description and due date.
      *
      * @param description Description of the task.
-     * @param by Due date of the task.
+     * @param byDate Due date of the task.
      */
-    public Deadline(String description, LocalDate by) {
+    public Deadline(String description, LocalDate byDate) {
         super(description);
-        this.by = by;
+        this.byDate = byDate;
     }
 
     /**
@@ -27,8 +27,8 @@ public class Deadline extends Task {
      *
      * @return Due date of the task.
      */
-    public LocalDate getBy() {
-        return by;
+    public LocalDate getByTime() {
+        return byDate;
     }
 
     /**
@@ -38,6 +38,6 @@ public class Deadline extends Task {
      */
     @Override
     public String toString() {
-        return "[D][" + getStatusIcon() + "] " + description + " (by: " + by.format(OUT) + ")";
+        return "[D][" + getStatusIcon() + "] " + description + " (by: " + byDate.format(OUT) + ")";
     }
 }
