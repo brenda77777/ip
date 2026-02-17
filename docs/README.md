@@ -1,30 +1,158 @@
-# Duke User Guide
+# Candy User Guide 🍬
 
-// Update the title above to match the actual product name
+![Candy UI](Ui.png)
 
-// Product screenshot goes here
+Candy is a simple task management chatbot application that helps users keep track of their tasks efficiently.
 
-// Product intro goes here
+Candy allows you to:
+- Add todos
+- Add deadlines
+- Add events
+- Mark tasks as done
+- Delete tasks
+- Find tasks
+- View all tasks
 
-## Adding deadlines
+---
 
-// Describe the action and its outcome.
+## Quick Start
 
-// Give examples of usage
+1. Download the jar file.
+2. Double-click to run the application.
+3. Type commands into the input box.
+4. Press Enter or click "Send" to execute commands.
 
-Example: `keyword (optional arguments)`
+---
 
-// A description of the expected outcome goes here
+## Features
 
+---
+
+## 1. Adding a Todo
+
+Adds a simple task to the list.
+
+### Format
 ```
-expected output
+todo DESCRIPTION
 ```
 
-## Feature ABC
+### Example
+```
+todo read book
+```
 
-// Feature details
+### Expected Result
+Adds a new todo task to your task list.
 
+---
 
-## Feature XYZ
+## 2. Adding a Deadline
 
-// Feature details
+Adds a task with a deadline.
+
+### Format
+```
+deadline DESCRIPTION /by DATE
+```
+
+### Example
+```
+deadline return book /by 2026-02-20
+```
+
+### Expected Result
+Adds a deadline task with the specified due date.
+
+---
+
+## 3. Adding an Event
+
+Adds an event with a start and end time.
+
+### Format
+```
+event DESCRIPTION /from START /to END
+```
+
+### Example
+```
+event project meeting /from Mon 2pm /to Mon 4pm
+```
+
+### Expected Result
+Adds an event task with the specified time range.
+
+---
+
+## 4. Marking a Task as Done
+
+Marks a task as completed.
+
+### Format
+```
+mark INDEX
+```
+
+### Example
+```
+mark 2
+```
+
+### Expected Result
+Marks the specified task as done.
+
+---
+
+## 5. Deleting a Task
+
+Deletes a task from the list.
+
+### Format
+```
+delete INDEX
+```
+
+### Example
+```
+delete 3
+```
+
+### Expected Result
+Removes the specified task from the list.
+
+---
+
+## 6. Finding Tasks
+
+Searches for tasks containing a keyword.
+
+### Format
+```
+find KEYWORD
+```
+
+### Example
+```
+find book
+```
+
+### Expected Result
+Displays all tasks that contain the keyword.
+
+---
+
+## Command Summary
+
+| Command | Format |
+|---------|--------|
+| Add Todo | `todo DESCRIPTION` |
+| Add Deadline | `deadline DESCRIPTION /by DATE` |
+| Add Event | `event DESCRIPTION /from START /to END` |
+| Mark Task | `mark INDEX` |
+| Delete Task | `delete INDEX` |
+| Find Task | `find KEYWORD` |
+
+---
+
+Candy helps you stay organised and manage your tasks efficiently. 🎯
