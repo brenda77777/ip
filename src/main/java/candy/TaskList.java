@@ -2,6 +2,8 @@ package candy;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Comparator;
+
 
 /**
  * Represents a list of tasks in the Candy application.
@@ -59,23 +61,23 @@ public class TaskList {
     /**
      * Marks the task at the given index as completed.
      *
-     * @param idx Index of the task
+     * @param index Index of the task
      * @throws CandyException If index is invalid
      */
-    public void mark(int idx) throws CandyException {
-        checkIndex(idx);
-        tasks.get(idx).markDone();
+    public void mark(int index) throws CandyException {
+        checkIndex(index);
+        tasks.get(index).markDone();
     }
 
     /**
      * Marks the task at the given index as not completed.
      *
-     * @param idx Index of the task
+     * @param index Index of the task
      * @throws CandyException If index is invalid
      */
-    public void unmark(int idx) throws CandyException {
-        checkIndex(idx);
-        tasks.get(idx).unmark();
+    public void unmark(int index) throws CandyException {
+        checkIndex(index);
+        tasks.get(index).unmark();
     }
 
     /**
@@ -85,8 +87,8 @@ public class TaskList {
      */
     public List<String> toLines() {
         List<String> lines = new ArrayList<>();
-        for (Task t : tasks) {
-            lines.add(Parser.toLine(t));
+        for (Task task : tasks) {
+            lines.add(Parser.toLine(task));
         }
         return lines;
     }
@@ -94,11 +96,11 @@ public class TaskList {
     /**
      * Checks whether the given index is valid.
      *
-     * @param idx Index to be checked
+     * @param index Index to be checked
      * @throws CandyException If index is out of range
      */
-    private void checkIndex(int idx) throws CandyException {
-        if (idx < 0 || idx >= tasks.size()) {
+    private void checkIndex(int index) throws CandyException {
+        if (index < 0 || index >= tasks.size()) {
             throw new CandyException("Task number does not exist.");
         }
     }
@@ -111,11 +113,11 @@ public class TaskList {
      */
     public TaskList find(String keyword) {
         TaskList result = new TaskList();
-        String k = keyword.toLowerCase();
+        String keywordLowerCase = keyword.toLowerCase();
 
-        for (Task t : tasks) {
-            if (t.getDescription().toLowerCase().contains(k)) {
-                result.add(t);
+        for (Task task : tasks) {
+            if (task.getDescription().toLowerCase().contains(keywordLowerCase)) {
+                result.add(task);
             }
         }
         return result;
@@ -143,4 +145,90 @@ public class TaskList {
 
         return sb.toString();
     }
+
+    /**
+     * Formats the task list into categorized sections.
+     *
+     * Tasks are grouped into:
+     * - Incomplete deadlines (sorted chronologically)
+     * - Completed deadlines (sorted chronologically)
+     * - Todos
+     * - Events
+     *
+     * This method does NOT modify the original task order.
+     *
+     * @return A formatted string representation of the categorized task list.
+     */
+    public String formatSortedForDisplay() {
+        if (tasks.isEmpty()) {
+            return "Your task list is empty.";
+        }
+
+        ArrayList<Deadline> urgent = new ArrayList<>();
+        ArrayList<Deadline> completedDeadlines = new ArrayList<>();
+        ArrayList<Todo> todos = new ArrayList<>();
+        ArrayList<Event> events = new ArrayList<>();
+
+        // Separate tasks into groups
+        for (Task task : tasks) {
+            if (task instanceof Deadline) {
+                Deadline deadline = (Deadline) task;
+                if (!deadline.isDone()) {
+                    urgent.add(deadline);
+                } else {
+                    completedDeadlines.add(deadline);
+                }
+            } else if (task instanceof Todo) {
+                todos.add((Todo) task);
+            } else if (task instanceof Event) {
+                events.add((Event) task);
+            }
+        }
+
+        // Sort deadlines by date
+        urgent.sort(Comparator.comparing(Deadline::getByTime));
+        completedDeadlines.sort(Comparator.comparing(Deadline::getByTime));
+
+        StringBuilder sb = new StringBuilder();
+
+        sb.append(" ~~Incomplete Urgent Tasks~~ \n");
+        if (urgent.isEmpty()) {
+            sb.append("None\n");
+        } else {
+            for (Deadline deadline : urgent) {
+                sb.append("- ").append(deadline).append("\n");
+            }
+        }
+
+        sb.append("\n ~~Completed Deadlines~~ \n");
+        if (completedDeadlines.isEmpty()) {
+            sb.append("None\n");
+        } else {
+            for (Deadline deadline : completedDeadlines) {
+                sb.append("- ").append(deadline).append("\n");
+            }
+        }
+
+        sb.append("\n ~~Todos~~ \n");
+        if (todos.isEmpty()) {
+            sb.append("None\n");
+        } else {
+            for (Todo todo : todos) {
+                sb.append("- ").append(todo).append("\n");
+            }
+        }
+
+        sb.append("\n ~~Events~~ \n");
+        if (events.isEmpty()) {
+            sb.append("None\n");
+        } else {
+            for (Event event : events) {
+                sb.append("- ").append(event).append("\n");
+            }
+        }
+
+        return sb.toString();
+    }
+
+
 }

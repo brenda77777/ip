@@ -3,134 +3,148 @@ package candy;
 import java.util.Scanner;
 
 /**
- * Handles all user interface interactions for the Candy application.
+ * Handles user interaction text for both terminal and GUI.
  * <p>
- * This class is responsible for reading user input and displaying
- * messages, errors, and task-related outputs to the console.
+ * Terminal mode uses:
+ * <ul>
+ *   <li>{@link #readCommand()}</li>
+ *   <li>{@link #showMessage(String)}</li>
+ *   <li>{@link #showError(String)}</li>
+ * </ul>
+ * GUI mode does NOT print directly; it calls the {@code getXxxText(...)} methods
+ * and displays the returned strings.
  */
 public class Ui {
-
     private final Scanner scanner = new Scanner(System.in);
 
     /**
-     * Displays the welcome message when the program starts.
-     */
-    public void showWelcome() {
-        System.out.println("Hello! I'm Candy");
-        System.out.println("What can I do for you?");
-    }
-
-    /**
-     * Reads a command input from the user.
+     * Reads one trimmed line of input from standard input (terminal mode).
      *
-     * @return Trimmed user input string
+     * @return The trimmed user command.
      */
     public String readCommand() {
         return scanner.nextLine().trim();
     }
 
     /**
-     * Displays a normal message to the user.
+     * Prints a normal message to standard output (terminal mode).
      *
-     * @param msg Message to be displayed
+     * @param message Message to be printed.
      */
-    public void showMessage(String msg) {
-        System.out.println(msg);
+    public void showMessage(String message) {
+        System.out.println(message);
     }
 
     /**
-     * Displays an error message to the user.
+     * Prints an error message to standard output (terminal mode).
      *
-     * @param msg Error message to be displayed
+     * @param message Error message to be printed.
      */
-    public void showError(String msg) {
-        System.out.println(msg);
+    public void showError(String message) {
+        System.out.println(message);
     }
 
     /**
-     * Displays the full list of tasks.
-     *
-     * @param tasks TaskList containing all tasks
+     * @return Welcome message shown at startup.
      */
-    public void showList(TaskList tasks) {
+    public String getWelcomeText() {
+        return "Hello! I'm Candy\nWhat can I do for you?";
+    }
+
+    /**
+     * @return Exit message when the user types bye.
+     */
+    public String getByeText() {
+        return "Bye. Hope to see you again soon!";
+    }
+
+    /**
+     * Builds the text shown after adding a task.
+     *
+     * @param task The newly added task.
+     * @param size The updated total number of tasks.
+     * @return Formatted message.
+     */
+    public String getAddText(Task task, int size) {
+        return "Got it. I've added this task:\n"
+                + task + "\n"
+                + "Now you have " + size + " tasks in the list.";
+    }
+
+    /**
+     * Builds the text shown after deleting a task.
+     *
+     * @param task The removed task.
+     * @param size The updated total number of tasks.
+     * @return Formatted message.
+     */
+    public String getDeleteText(Task task, int size) {
+        return "Noted. I've removed this task:\n"
+                + task + "\n"
+                + "Now you have " + size + " tasks in the list.";
+    }
+
+    /**
+     * Builds the text shown after marking a task as done.
+     *
+     * @param task The task that was marked done.
+     * @return Formatted message.
+     */
+    public String getMarkText(Task task) {
+        return "Nice! I've marked this task as done:\n" + task;
+    }
+
+    /**
+     * Builds the text shown after unmarking a task.
+     *
+     * @param task The task that was unmarked.
+     * @return Formatted message.
+     */
+    public String getUnmarkText(Task task) {
+        return "OK, I've marked this task as not done yet:\n" + task;
+    }
+
+    /**
+     * Builds the text for listing all tasks.
+     *
+     * @param tasks The current task list.
+     * @return Formatted message.
+     */
+    public String getListText(TaskList tasks) {
         if (tasks.size() == 0) {
-            System.out.println("Your list is empty.");
-            return;
+            return "Your list is empty.";
         }
-
-        System.out.println("Here are the tasks in your list:");
-        for (int i = 0; i < tasks.size(); i++) {
-            try {
-                System.out.println((i + 1) + ". " + tasks.get(i));
-            } catch (CandyException e) {
-                System.out.println("Error displaying task " + (i + 1));
-            }
-        }
+        return "Here are your tasks:\n" + tasks.formatForDisplay();
     }
 
     /**
-     * Displays confirmation after a task is added.
+     * Builds the text for find results.
      *
-     * @param task Task that was added
-     * @param size Updated total number of tasks
+     * @param keyword The keyword searched for.
+     * @param matches The list of matched tasks.
+     * @return Formatted message.
      */
-    public void showAdd(Task task, int size) {
-        System.out.println("Got it. I've added this task:");
-        System.out.println(task);
-        System.out.println("Now you have " + size + " tasks in the list.");
-    }
-
-    /**
-     * Displays confirmation after a task is deleted.
-     *
-     * @param task Task that was removed
-     * @param size Updated total number of tasks
-     */
-    public void showDelete(Task task, int size) {
-        System.out.println("Noted. I've removed this task:");
-        System.out.println(task);
-        System.out.println("Now you have " + size + " tasks in the list.");
-    }
-
-    /**
-     * Displays confirmation after a task is marked as done.
-     *
-     * @param task Task that was marked
-     */
-    public void showMark(Task task) {
-        System.out.println("Nice! I've marked this task as done:");
-        System.out.println(task);
-    }
-
-    /**
-     * Displays confirmation after a task is unmarked.
-     *
-     * @param task Task that was unmarked
-     */
-    public void showUnmark(Task task) {
-        System.out.println("OK, I've marked this task as not done yet:");
-        System.out.println(task);
-    }
-
-    /**
-     * Displays the list of tasks matching a keyword.
-     *
-     * @param keyword Search keyword
-     * @param matches TaskList containing matched tasks
-     */
-    public void showFindResults(String keyword, TaskList matches) {
+    public String getFindText(String keyword, TaskList matches) {
         if (matches.size() == 0) {
-            System.out.println("No matching tasks found for: " + keyword);
-            return;
+            return "No matching tasks found for: " + keyword;
         }
+        return "Here are the matching tasks in your list:\n" + matches.formatForDisplay();
+    }
 
-        System.out.println("Here are the matching tasks in your list:");
-        for (int i = 0; i < matches.size(); i++) {
-            try {
-                System.out.println((i + 1) + ". " + matches.get(i));
-            } catch (CandyException e) {
-                System.out.println("Error displaying match " + (i + 1));
-            }
-        }
+    /**
+     * @return Help text listing supported commands.
+     */
+    public String getHelpText() {
+        return "Available commands:\n"
+                + "list\n"
+                + "todo <task>\n"
+                + "deadline <task> /by <yyyy-mm-dd>\n"
+                + "event <task> /from <start> /to <end>\n"
+                + "mark <task number>\n"
+                + "unmark <task number>\n"
+                + "delete <task number>\n"
+                + "find <keyword>\n"
+                + "sort\n"
+                + "bye";
     }
 }

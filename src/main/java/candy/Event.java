@@ -4,20 +4,20 @@ package candy;
  * Represents a task that occurs during a specific time period.
  */
 public class Event extends Task {
-    private final String from;
-    private final String to;
+    private final String fromTime;
+    private final String toTime;
 
     /**
      * Creates an Event task with the given description and time range.
      *
      * @param description Description of the event.
-     * @param from Start time of the event.
-     * @param to End time of the event.
+     * @param fromTime Start time of the event.
+     * @param toTime End time of the event.
      */
-    public Event(String description, String from, String to) {
+    public Event(String description, String fromTime, String toTime) {
         super(description);
-        this.from = from;
-        this.to = to;
+        this.fromTime = fromTime;
+        this.toTime = toTime;
     }
 
     /**
@@ -25,8 +25,8 @@ public class Event extends Task {
      *
      * @return Start time.
      */
-    public String getFrom() {
-        return from;
+    public String getFromTime() {
+        return fromTime;
     }
 
     /**
@@ -34,8 +34,8 @@ public class Event extends Task {
      *
      * @return End time.
      */
-    public String getTo() {
-        return to;
+    public String getToTime() {
+        return toTime;
     }
 
     /**
@@ -45,6 +45,6 @@ public class Event extends Task {
      */
     @Override
     public String toString() {
-        return "[E][" + getStatusIcon() + "] " + description + " (from: " + from + " to: " + to + ")";
+        return "[E][" + getStatusIcon() + "] " + description + " (from: " + fromTime + " to: " + toTime + ")";
     }
 }
