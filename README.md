@@ -1,38 +1,158 @@
-# Candy Task Manager
+# Candy User Guide 🍬
 
-Candy is a simple command-line task manager application written in Java.
-It allows users to manage todos, deadlines, and events easily.
+![Candy UI](Ui.png)
+
+Candy is a simple task management chatbot application that helps users keep track of their tasks efficiently.
+
+Candy allows you to:
+- Add todos
+- Add deadlines
+- Add events
+- Mark tasks as done
+- Delete tasks
+- Find tasks
+- View all tasks
+
+---
+
+## Quick Start
+
+1. Download the jar file.
+2. Double-click to run the application.
+3. Type commands into the input box.
+4. Press Enter or click "Send" to execute commands.
+
+---
 
 ## Features
 
-- Add todo tasks
-- Add deadline tasks
-- Add event tasks
-- Mark / unmark tasks
-- Delete tasks
-- Find tasks by keyword
-- Sort tasks
-- Persistent storage
+---
 
-## Example Usage
+## 1. Adding a Todo
+
+Adds a simple task to the list.
+
+### Format
+```
+todo DESCRIPTION
+```
+
+### Example
+```
 todo read book
-deadline return book /by 2026-01-20
+```
+
+### Expected Result
+Adds a new todo task to your task list.
+
+---
+
+## 2. Adding a Deadline
+
+Adds a task with a deadline.
+
+### Format
+```
+deadline DESCRIPTION /by DATE
+```
+
+### Example
+```
+deadline return book /by 2026-02-20
+```
+
+### Expected Result
+Adds a deadline task with the specified due date.
+
+---
+
+## 3. Adding an Event
+
+Adds an event with a start and end time.
+
+### Format
+```
+event DESCRIPTION /from START /to END
+```
+
+### Example
+```
 event project meeting /from Mon 2pm /to Mon 4pm
-list
+```
+
+### Expected Result
+Adds an event task with the specified time range.
+
+---
+
+## 4. Marking a Task as Done
+
+Marks a task as completed.
+
+### Format
+```
+mark INDEX
+```
+
+### Example
+```
 mark 2
+```
+
+### Expected Result
+Marks the specified task as done.
+
+---
+
+## 5. Deleting a Task
+
+Deletes a task from the list.
+
+### Format
+```
+delete INDEX
+```
+
+### Example
+```
 delete 3
+```
 
-## Acknowledgements
+### Expected Result
+Removes the specified task from the list.
 
-### AI-Assisted Coding (A-AiAssisted)
+---
 
-This project was developed with assistance from ChatGPT.
+## 6. Finding Tasks
 
-AI assistance was used for:
-- Refactoring for SLAP compliance
-- Improving naming clarity
-- Drafting Javadoc comments
-- Reviewing separation of concerns
-- Improving error handling
+Searches for tasks containing a keyword.
 
-All AI-generated suggestions were reviewed and tested before integration.
+### Format
+```
+find KEYWORD
+```
+
+### Example
+```
+find book
+```
+
+### Expected Result
+Displays all tasks that contain the keyword.
+
+---
+
+## Command Summary
+
+| Command | Format |
+|---------|--------|
+| Add Todo | `todo DESCRIPTION` |
+| Add Deadline | `deadline DESCRIPTION /by DATE` |
+| Add Event | `event DESCRIPTION /from START /to END` |
+| Mark Task | `mark INDEX` |
+| Delete Task | `delete INDEX` |
+| Find Task | `find KEYWORD` |
+
+---
+
+Candy helps you stay organised and manage your tasks efficiently. 🎯
