@@ -205,21 +205,40 @@ Displays tasks sorted by earliest deadline first.
 
 ---
 
+## 10. Exit the window
+
+For closing the window.
+
+### Format
+```
+bye
+```
+
+### Example
+```
+bye
+```
+
+### Expected Result
+Window will close.
+
+---
+
 ## Command Summary
 
-| Command | Format |
-|---------|--------|
-| List Tasks | `list` |
-| Add Todo | `todo DESCRIPTION` |
-| Add Deadline | `deadline DESCRIPTION /by DATE` |
-| Add Event | `event DESCRIPTION /from START /to END` |
-| Mark Task | `mark INDEX` |
-| Unmark Task | `unmark INDEX` |
-| Delete Task | `delete INDEX` |
-| Find Task | `find KEYWORD` |
-| Sort Tasks | `sort` |
+| Command    | Format                                  |
+|------------|-----------------------------------------|
+| List Tasks | `list`                                  |
+| Add Todo   | `todo DESCRIPTION`                      |
+| Add Deadline | `deadline DESCRIPTION /by DATE`         |
+| Add Event  | `event DESCRIPTION /from START /to END` |
+| Mark Task  | `mark INDEX`                            |
+| Unmark Task | `unmark INDEX`                          |
+| Delete Task | `delete INDEX`                          |
+| Find Task  | `find KEYWORD`                          |
+| Sort Tasks | `sort`                                  |
+| Exit the window | `bye`                                   |
 
 ---
 
 Candy helps you stay organised and manage your tasks efficiently. 🎯
-Type "bye" to exit the window. 
