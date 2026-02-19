@@ -222,3 +222,4 @@ Displays tasks sorted by earliest deadline first.
 ---
 
 Candy helps you stay organised and manage your tasks efficiently. 🎯
+Type "bye" to exit the window. 

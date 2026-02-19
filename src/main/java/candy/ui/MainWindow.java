@@ -7,6 +7,7 @@ import javafx.scene.control.ScrollPane;
 import javafx.scene.control.TextField;
 import javafx.scene.image.Image;
 import javafx.scene.layout.VBox;
+import javafx.application.Platform;
 
 public class MainWindow {
     private final Candy candy = new Candy();
@@ -55,5 +56,9 @@ public class MainWindow {
         );
 
         userInput.clear();
+
+        if (userText.equalsIgnoreCase("bye")) {
+            Platform.exit();
+        }
     }
 }

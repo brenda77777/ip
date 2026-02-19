@@ -7,4 +7,3 @@ D | 0 | book flight | 2025-12-20
 D | 0 | buy birthday gift | 2026-01-15
 T | 0 | read book
 D | 0 | return book | 2026-02-20
-E | 0 | project meeting | Mon 2pm | Mon 4pm
