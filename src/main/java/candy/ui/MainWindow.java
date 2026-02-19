@@ -8,6 +8,8 @@ import javafx.scene.control.TextField;
 import javafx.scene.image.Image;
 import javafx.scene.layout.VBox;
 import javafx.application.Platform;
+import javafx.animation.PauseTransition;
+import javafx.util.Duration;
 
 public class MainWindow {
     private final Candy candy = new Candy();
@@ -58,7 +60,9 @@ public class MainWindow {
         userInput.clear();
 
         if (userText.equalsIgnoreCase("bye")) {
-            Platform.exit();
+            PauseTransition delay = new PauseTransition(Duration.seconds(3.0));
+            delay.setOnFinished(event -> Platform.exit());
+            delay.play();
         }
     }
 }
