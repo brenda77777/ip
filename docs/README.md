@@ -220,7 +220,7 @@ bye
 ```
 
 ### Expected Result
-Window will close after 5 seconds.
+Window will close after 1.5 seconds.
 
 ---
 
