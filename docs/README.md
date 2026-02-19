@@ -8,12 +8,12 @@ Candy allows you to:
 - Add todos
 - Add deadlines
 - Add events
+- List all tasks
 - Mark tasks as done
 - Unmark tasks
 - Delete tasks
 - Find tasks
 - Sort tasks
-- List all tasks
 
 ---
 
@@ -34,7 +34,26 @@ Candy allows you to:
 
 ---
 
-## 1. Adding a Todo
+## 1. Listing All Tasks
+
+Displays all tasks in the list.
+
+### Format
+```
+list
+```
+
+### Example
+```
+list
+```
+
+### Expected Result
+Displays all tasks currently stored.
+
+---
+
+## 2. Adding a Todo
 
 Adds a simple task to the list.
 
@@ -53,7 +72,7 @@ Adds a new todo task to your task list.
 
 ---
 
-## 2. Adding a Deadline
+## 3. Adding a Deadline
 
 Adds a task with a deadline.
 
@@ -72,7 +91,7 @@ Adds a deadline task with the specified due date.
 
 ---
 
-## 3. Adding an Event
+## 4. Adding an Event
 
 Adds an event with a start and end time.
 
@@ -91,7 +110,7 @@ Adds an event task with the specified time range.
 
 ---
 
-## 4. Marking a Task as Done
+## 5. Marking a Task as Done
 
 Marks a task as completed.
 
@@ -110,7 +129,7 @@ Marks the specified task as done.
 
 ---
 
-## 5. Unmarking a Task
+## 6. Unmarking a Task
 
 Marks a completed task as not done.
 
@@ -129,7 +148,7 @@ Marks the specified task as not completed.
 
 ---
 
-## 6. Deleting a Task
+## 7. Deleting a Task
 
 Deletes a task from the list.
 
@@ -148,7 +167,7 @@ Removes the specified task from the list.
 
 ---
 
-## 7. Finding Tasks
+## 8. Finding Tasks
 
 Searches for tasks containing a keyword.
 
@@ -167,7 +186,7 @@ Displays all tasks that contain the keyword.
 
 ---
 
-## 8. Sorting Tasks
+## 9. Sorting Tasks
 
 Sorts tasks by deadline priority (earliest deadline first).
 
@@ -190,6 +209,7 @@ Displays tasks sorted by earliest deadline first.
 
 | Command | Format |
 |---------|--------|
+| List Tasks | `list` |
 | Add Todo | `todo DESCRIPTION` |
 | Add Deadline | `deadline DESCRIPTION /by DATE` |
 | Add Event | `event DESCRIPTION /from START /to END` |
