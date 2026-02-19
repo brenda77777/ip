@@ -9,18 +9,24 @@ Candy allows you to:
 - Add deadlines
 - Add events
 - Mark tasks as done
+- Unmark tasks
 - Delete tasks
 - Find tasks
-- View all tasks
+- Sort tasks
+- List all tasks
 
 ---
 
 ## Quick Start
 
-1. Download the jar file.
-2. Double-click to run the application.
-3. Type commands into the input box.
-4. Press Enter or click "Send" to execute commands.
+1. Download the jar file from the Releases page.
+2. Open a terminal in the jar file location.
+3. Run:
+   ```
+   java -jar candy.jar
+   ```
+4. Type commands into the input box.
+5. Press Enter or click **Send** to execute commands.
 
 ---
 
@@ -104,7 +110,26 @@ Marks the specified task as done.
 
 ---
 
-## 5. Deleting a Task
+## 5. Unmarking a Task
+
+Marks a completed task as not done.
+
+### Format
+```
+unmark INDEX
+```
+
+### Example
+```
+unmark 2
+```
+
+### Expected Result
+Marks the specified task as not completed.
+
+---
+
+## 6. Deleting a Task
 
 Deletes a task from the list.
 
@@ -123,7 +148,7 @@ Removes the specified task from the list.
 
 ---
 
-## 6. Finding Tasks
+## 7. Finding Tasks
 
 Searches for tasks containing a keyword.
 
@@ -142,6 +167,25 @@ Displays all tasks that contain the keyword.
 
 ---
 
+## 8. Sorting Tasks
+
+Sorts tasks by deadline priority (earliest deadline first).
+
+### Format
+```
+sort
+```
+
+### Example
+```
+sort
+```
+
+### Expected Result
+Displays tasks sorted by earliest deadline first.
+
+---
+
 ## Command Summary
 
 | Command | Format |
@@ -150,8 +194,10 @@ Displays all tasks that contain the keyword.
 | Add Deadline | `deadline DESCRIPTION /by DATE` |
 | Add Event | `event DESCRIPTION /from START /to END` |
 | Mark Task | `mark INDEX` |
+| Unmark Task | `unmark INDEX` |
 | Delete Task | `delete INDEX` |
 | Find Task | `find KEYWORD` |
+| Sort Tasks | `sort` |
 
 ---
 
