@@ -19,7 +19,7 @@ Candy allows you to:
 
 ## Quick Start
 
-1. Download the jar file from the Releases page.
+1. Download the jar file from the Releases page [here](https://github.com/brenda77777/ip/releases/tag/v0.2)
 2. Open a terminal in the jar file location.
 3. Run:
    ```
