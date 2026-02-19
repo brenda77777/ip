@@ -60,7 +60,7 @@ public class MainWindow {
         userInput.clear();
 
         if (userText.equalsIgnoreCase("bye")) {
-            PauseTransition delay = new PauseTransition(Duration.seconds(8.0));
+            PauseTransition delay = new PauseTransition(Duration.seconds(1.5));
             delay.setOnFinished(event -> Platform.exit());
             delay.play();
         }
