@@ -188,7 +188,9 @@ Displays all tasks that contain the keyword.
 
 ## 9. Sorting Deadline-type Tasks
 
-Sorts deadline-type tasks by date to show emergency and priority tasks. 
+Sorts deadline-type tasks by date to show emergency and priority tasks that users should prioritize. It will separate into unmark deadline-type tasks 
+which is incomplete urgent tasks that should work on it first, completed deadline-type tasks,
+while todo tasks and event tasks remain the orders.
 
 
 ### Format
@@ -227,18 +229,18 @@ Window will close after 1.5 seconds.
 
 ## Command Summary
 
-| Command    | Format                                  |
-|------------|-----------------------------------------|
-| List Tasks | `list`                                  |
-| Add Todo   | `todo DESCRIPTION`                      |
-| Add Deadline | `deadline DESCRIPTION /by DATE`         |
-| Add Event  | `event DESCRIPTION /from START /to END` |
-| Mark Task  | `mark INDEX`                            |
-| Unmark Task | `unmark INDEX`                          |
-| Delete Task | `delete INDEX`                          |
-| Find Task  | `find KEYWORD`                          |
-| Sort Tasks | `sort`                                  |
-| Exit the window | `bye`                                   |
+| Command                  | Format                                  |
+|--------------------------|-----------------------------------------|
+| List Tasks               | `list`                                  |
+| Add Todo                 | `todo DESCRIPTION`                      |
+| Add Deadline             | `deadline DESCRIPTION /by DATE`         |
+| Add Event                | `event DESCRIPTION /from START /to END` |
+| Mark Task                | `mark INDEX`                            |
+| Unmark Task              | `unmark INDEX`                          |
+| Delete Task              | `delete INDEX`                          |
+| Find Task                | `find KEYWORD`                          |
+| Sort Deadline-tyoe Tasks | `sort`                                  |
+| Exit the window          | `bye`                                   |
 
 ---
 
