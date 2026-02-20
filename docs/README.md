@@ -186,9 +186,10 @@ Displays all tasks that contain the keyword.
 
 ---
 
-## 9. Sorting Tasks
+## 9. Sorting Deadline-type Tasks
 
-Sorts tasks by deadline priority (earliest deadline first).
+Sorts deadline-type tasks by date to show emergency and priority tasks. 
+
 
 ### Format
 ```
