@@ -149,6 +149,13 @@ public class Parser {
         String fromTime = times[0].trim();
         String toTime = times[1].trim();
 
+        LocalDate fromDate = parseDate(fromTime);
+        LocalDate toDate = parseDate(toTime);
+
+        if (fromDate.isAfter(toDate)) {
+            throw new CandyException("Event start date must be before end date.");
+        }
+
         if (description.isEmpty() || fromTime.isEmpty() || toTime.isEmpty()) {
             throw new CandyException("Please use format: event <task> /from <start> /to <end>");
         }

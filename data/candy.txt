@@ -7,3 +7,4 @@ D | 0 | book flight | 2025-12-20
 D | 0 | buy birthday gift | 2026-01-15
 T | 0 | read book
 D | 1 | return book | 2026-01-01
+E | 0 | hi | 2026-02-01 | 2025-03-01

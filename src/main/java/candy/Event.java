@@ -1,5 +1,7 @@
 package candy;
 
+import java.time.LocalDate;
+
 /**
  * Represents a task that occurs during a specific time period.
  */
@@ -16,10 +18,10 @@ public class Event extends Task {
      */
     public Event(String description, String fromTime, String toTime) {
         super(description);
+
         this.fromTime = fromTime;
         this.toTime = toTime;
     }
-
     /**
      * Returns the start time of the event.
      *
