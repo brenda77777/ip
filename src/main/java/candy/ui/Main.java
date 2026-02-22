@@ -17,10 +17,10 @@ public class Main extends Application {
         scene.getStylesheets().add(Main.class.getResource("/view/MainWindow.css").toExternalForm());
 
         stage.setTitle("Candy");
-        stage.setResizable(false);
+        stage.setResizable(true);
+        stage.setMaximized(false);
         stage.setMinHeight(600.0);
         stage.setMinWidth(400.0);
-
         stage.setScene(scene);
         stage.show();
     }
